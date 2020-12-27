@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
+import Navbar from '../ui/Navbar';
 
 const CalendarScreen = () => {
-  return (
-    <div>
-      <h2>Calendar App</h2>
-    </div>
-  )
-}
+  return <div>
+    <Navbar />
+    <h2>Calendar App</h2>
+  </div>
+};
 
-export default CalendarScreen
+export default CalendarScreen;
