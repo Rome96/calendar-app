@@ -1,8 +1,14 @@
 import React from 'react';
 import moment from 'moment';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css'
+
 import Navbar from '../ui/Navbar';
+import { messages } from '../../helpers/calendar-messages-ES';
+
+import 'moment/dist/locale/es';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+moment.locale('es');
 
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
 
@@ -14,6 +20,22 @@ const events = [{
 }]
 
 const CalendarScreen = () => {
+
+  const eventPropGetter = (event, start, end, isSelected) => {
+
+    const style = {
+      backgroundColor: "#19456b",
+      borderRadius: "0px",
+      opacity: 0.8,
+      display: "block",
+      color: "#FFFF",
+    };
+
+    return { 
+      style
+    }
+  };
+
   return (
     <div className="calendar-screen">
       <Navbar />
@@ -23,6 +45,8 @@ const CalendarScreen = () => {
         events={events}
         startAccessor="start"
         endAccessor="end"
+        messages={messages}
+        eventPropGetter={eventPropGetter}
       />
     </div>
   );
