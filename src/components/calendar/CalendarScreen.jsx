@@ -3,20 +3,26 @@ import moment from 'moment';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 
 import Navbar from '../ui/Navbar';
+import CalendarEvent from './CalendarEvent';
 import { messages } from '../../helpers/calendar-messages-ES';
 
 import 'moment/dist/locale/es';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 moment.locale('es');
-
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
 
 const events = [{
+  name: 'Turiano',
+  bgColor: 'FAFAFA',
+  notes: 'Comprar pastel',
   title: 'Cumpleaños de mi madre',
   start: moment().toDate(), // new Date()
   end: moment().add(2, 'hours').toDate(),
-  bgColor: 'FAFAFA',
+  user: {
+    _id: '123',
+    name: 'Turiano Rg'
+  }
 }]
 
 const CalendarScreen = () => {
@@ -24,7 +30,7 @@ const CalendarScreen = () => {
   const eventPropGetter = (event, start, end, isSelected) => {
 
     const style = {
-      backgroundColor: "#19456b",
+      // backgroundColor: "#00587a",
       borderRadius: "0px",
       opacity: 0.8,
       display: "block",
@@ -47,6 +53,9 @@ const CalendarScreen = () => {
         endAccessor="end"
         messages={messages}
         eventPropGetter={eventPropGetter}
+        components={{
+          event: CalendarEvent
+        }}
       />
     </div>
   );
