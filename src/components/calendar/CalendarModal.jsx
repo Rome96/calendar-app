@@ -15,7 +15,9 @@ const CalendarModal = () => {
   return <Modal
     isOpen={openModal}
     style={customStyles}
-   
+    className="modal"
+    overlayClassName="modal-background"
+    closeTimeoutMS={200}
     // onAfterOpen={afterOpenModal}
     onRequestClose={closeModal}
     contentLabel="Example Modal"
