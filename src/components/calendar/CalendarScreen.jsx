@@ -8,6 +8,7 @@ import { messages } from '../../helpers/calendar-messages-ES';
 
 import 'moment/dist/locale/es';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import CalendarModal from './CalendarModal';
 
 moment.locale('es');
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
@@ -75,6 +76,8 @@ const CalendarScreen = () => {
         onSelectEvent={onSelectEvent}
         onDoubleClickEvent={onDoubleClickEvent}
       />
+
+      <CalendarModal />
     </div>
   );
 };
