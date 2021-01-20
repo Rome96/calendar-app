@@ -13,19 +13,45 @@ const CalendarModal = () => {
   const [openModal, setOpenModal] = useState(true);
   const [dateStart, setDateStart] = useState(now.toDate());
   const [dateEnd, setDateEnd] = useState(after.toDate());
+  const [formValues, setFormValues] = useState({
+    title: "Evento",
+    notes: "",
+    start: now.toDate(),
+    end: after.toDate(),
+  });
 
+  const { title, notes } = formValues;
 
-  const closeModal = () => {
-    console.log('Clousing...')
-    setOpenModal(false)
+  const closeModal = _ => {
+    setOpenModal(false);
   };
 
   const handleStartDateChange = e => {
     setDateStart(e)
+    setFormValues({
+      ...formValues,
+      start: e
+    });
   };
 
-  const handleEndDateChange = (e) => {
+  const handleEndDateChange = e => {
     setDateEnd(e);
+    setFormValues({
+      ...formValues,
+      end: e,
+    });
+  };
+
+  const handleInputChange = ({target}) => {
+    setFormValues({
+      ...formValues,
+      [target.name] : target.value
+    })
+  };
+
+  const handleSubmitForm = e => {
+    e.preventDefault();
+    console.log(formValues)
   };
 
   return (
@@ -41,7 +67,10 @@ const CalendarModal = () => {
     >
       <h1>Nuevo evento</h1>
       <hr />
-      <form className="container">
+      <form
+        className="container"
+        onSubmit={handleSubmitForm}
+      >
         <div className="form-group">
           <label>Fecha y hora inicio</label>
           {/* <input className="form-control" placeholder="Fecha inicio" /> */}
@@ -72,6 +101,8 @@ const CalendarModal = () => {
             placeholder="Título del evento"
             name="title"
             autocomplete="off"
+            value={title}
+            onChange={handleInputChange}
           />
           <small id="emailHelp" className="form-text text-muted">
             Una descripción corta
@@ -85,6 +116,8 @@ const CalendarModal = () => {
             placeholder="Notas"
             rows="5"
             name="notes"
+            value={notes}
+            onChange={handleInputChange}
           ></textarea>
           <small id="emailHelp" className="form-text text-muted">
             Información adicional
