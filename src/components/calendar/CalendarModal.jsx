@@ -129,7 +129,7 @@ const CalendarModal = () => {
             type="text"
             className="form-control"
             placeholder="Notas"
-            rows="5"
+            rows="2"
             name="notes"
             value={notes}
             onChange={handleInputChange}
