@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
-import Modal from "react-modal";
 import moment from 'moment'
+import Swal from 'sweetalert2';
+import {useState} from 'react';
+import Modal from "react-modal";
 import DateTimePicker from "react-datetime-picker";
 import { customStyles } from '../../helpers/customStylesModal';
 
@@ -13,14 +14,15 @@ const CalendarModal = () => {
   const [openModal, setOpenModal] = useState(true);
   const [dateStart, setDateStart] = useState(now.toDate());
   const [dateEnd, setDateEnd] = useState(after.toDate());
+  const [titleValid, setTitleValid] = useState(true)
   const [formValues, setFormValues] = useState({
-    title: "Evento",
+    title: "",
     notes: "",
     start: now.toDate(),
     end: after.toDate(),
   });
 
-  const { title, notes } = formValues;
+  const { title, notes, start, end } = formValues;
 
   const closeModal = _ => {
     setOpenModal(false);
@@ -51,7 +53,21 @@ const CalendarModal = () => {
 
   const handleSubmitForm = e => {
     e.preventDefault();
-    console.log(formValues)
+    const momentStart = moment(start);
+    const moemntEnd = moment(end);
+
+    if (momentStart.isSameOrAfter(moemntEnd)) {
+      return Swal.fire('Error', 'La fecha fin debe ser mayor a la fecha de inicio', 'error');
+    };
+
+    if (title.trim() < 2) {
+      // return Swal.fire('Error', 'Agregue un titulo', 'error');
+      return setTitleValid(false)
+    };
+
+    setTitleValid(true)
+    closeModal();
+
   };
 
   return (
@@ -67,16 +83,14 @@ const CalendarModal = () => {
     >
       <h1>Nuevo evento</h1>
       <hr />
-      <form
-        className="container"
-        onSubmit={handleSubmitForm}
-      >
+      <form className="container" onSubmit={handleSubmitForm}>
         <div className="form-group">
           <label>Fecha y hora inicio</label>
           {/* <input className="form-control" placeholder="Fecha inicio" /> */}
           <DateTimePicker
             onChange={handleStartDateChange}
             value={dateStart}
+            amPmAriaLabel
             className="form-control"
           />
         </div>
@@ -88,6 +102,7 @@ const CalendarModal = () => {
             onChange={handleEndDateChange}
             value={dateEnd}
             minDate={dateStart}
+            amPmAriaLabel
             className="form-control"
           />
         </div>
@@ -97,7 +112,7 @@ const CalendarModal = () => {
           <label>Titulo y notas</label>
           <input
             type="text"
-            className="form-control"
+            className={`form-control ${!titleValid && 'is-invalid'}`}
             placeholder="Título del evento"
             name="title"
             autocomplete="off"
