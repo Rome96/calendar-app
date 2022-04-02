@@ -1,34 +1,39 @@
-import { useState } from 'react';
-import moment from 'moment';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { useState } from "react";
+import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 
-import Navbar from '../ui/Navbar';
-import CalendarEvent from './CalendarEvent';
-import { messages } from '../../helpers/calendar-messages-ES';
+import Navbar from "../ui/Navbar";
+import CalendarEvent from "./CalendarEvent";
+import { messages } from "../../helpers/calendar-messages-ES";
 
-import 'moment/dist/locale/es';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import CalendarModal from './CalendarModal';
+import "moment/dist/locale/es";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import CalendarModal from "./CalendarModal";
+import { uiOpenModal } from "../../redux/action/ui";
 
-moment.locale('es');
-const localizer = momentLocalizer(moment) // or globalizeLocalizer
+moment.locale("es");
+const localizer = momentLocalizer(moment); // or globalizeLocalizer
 
-const events = [{
-  name: 'Turiano',
-  bgColor: 'FAFAFA',
-  notes: 'Comprar pastel',
-  title: 'Cumpleaños de mi madre',
-  start: moment().toDate(), // new Date()
-  end: moment().add(2, 'hours').toDate(),
-  user: {
-    _id: '123',
-    name: 'Turiano Rg'
-  }
-}]
+const events = [
+  {
+    name: "Turiano",
+    bgColor: "FAFAFA",
+    notes: "Comprar pastel",
+    title: "Cumpleaños de mi madre",
+    start: moment().toDate(), // new Date()
+    end: moment().add(2, "hours").toDate(),
+    user: {
+      _id: "123",
+      name: "Turiano Rg",
+    },
+  },
+];
 
 const CalendarScreen = () => {
-
-  const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
+  const [lastView, setLastView] = useState(localStorage.getItem("lastView") || "month");
+  const { openModal } = useSelector((state) => state.ui);
+  const dispatch = useDispatch();
 
   const eventPropGetter = (event, start, end, isSelected) => {
     const style = {
@@ -39,22 +44,22 @@ const CalendarScreen = () => {
       color: "#FFFF",
     };
 
-    return { 
-      style
-    }
+    return {
+      style,
+    };
   };
 
-  const onViewChange = e => {
-    setLastView(e)
-    localStorage.setItem('lastView', e)
+  const onViewChange = (e) => {
+    setLastView(e);
+    localStorage.setItem("lastView", e);
   };
 
-  const onSelectEvent = e => {
+  const onSelectEvent = (e) => {
     console.log(e);
-    alert('evento seleccionado');
+    dispatch(uiOpenModal());
   };
 
-  const onDoubleClickEvent = e => {
+  const onDoubleClickEvent = (e) => {
     console.log(e);
     alert("Turiano el capo");
   };

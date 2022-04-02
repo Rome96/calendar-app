@@ -1,6 +1,6 @@
 import React from 'react'
-import AuthScreen from '../auth/AuthScreen';
-import CalendarScreen from '../calendar/CalendarScreen';
+import AuthScreen from '../screens/auth/AuthScreen.jsx';
+import CalendarScreen from '../components/calendar/CalendarScreen';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 const AppRouter = () => {
